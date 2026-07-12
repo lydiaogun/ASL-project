@@ -28,9 +28,34 @@ while True:
 
     # print the result
     if hand_landmarker_result.hand_landmarks:
-        wrist = hand_landmarker_result.hand_landmarks[0][0]
-        print(f"Wrist position: x={wrist.x:.3f}, y={wrist.y:.3f}, z={wrist.z:.3f}")
+        hand = hand_landmarker_result.hand_landmarks[0]
+
+        index_joint = hand[6]
+        index_tip = hand[8]
+
+        middle_joint = hand[10]
+        middle_tip = hand[12]
+
+        ring_joint = hand[14]
+        ring_tip = hand[16]
+
+        pinky_joint = hand[18]
+        pinky_tip = hand[20]
+
+
+       
+
     
+
+        if index_joint.y > index_tip.y and  middle_joint.y > middle_tip.y and ring_joint.y > ring_tip.y and pinky_joint.y > pinky_tip.y:
+            print("hand is open")
+        else:
+            print("hand is closed")
+
+      
+    
+    
+
     cv2.imshow('ASL Project', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

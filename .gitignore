@@ -1,0 +1,8 @@
+.venv/
+venv/
+.DS_Store
+archive/
+archive.zip
+asl_alphabet_train/
+asl_alphabet_test/
+*.joblib

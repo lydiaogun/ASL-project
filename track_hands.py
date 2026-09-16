@@ -64,8 +64,8 @@ while True:
     
 
 
-    # If I press q, quit
-    if key == ord('q'):
+    
+    if key == 27:
         break
 
     # If I press s, capture the current hand landmarks

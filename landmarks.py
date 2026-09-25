@@ -2,7 +2,7 @@ import math
 
 
 
-def normalise(values, handedness, scale = True):
+def normalise(values, handedness,):
 
     hand = values.copy()
 
@@ -28,9 +28,9 @@ def normalise(values, handedness, scale = True):
 
     if l_nine == 0:
         raise ValueError("Landmark 9 vector distance is 0")
-    if scale:
-        for i in range(0,63):
-            hand[i] = hand[i] / l_nine
+    
+    for i in range(0,63):
+        hand[i] = hand[i] / l_nine
 
 
     return hand

@@ -16,7 +16,7 @@ CSV format. 63 landmark values, handedness, label. Label last so "everything but
 
 Normalisation - Two transforms on the training data, one for wrist-relative positions and scale.
 
-Wrist-relative: subtract landmark 0's x, y, z from every landmark. Raw coordinates encode where the hand is in frame, and KNN compares numbers directly, so without this the model keys on position rather than shape. After the subtraction each value is a distance from the wrist, which doesn't change when the hand moves around the frame.
+Wrist-relative: subtract landmark 0's x, y, z from every landmark. Raw coordinates encode where the hand is in frame, and KNN compares numbers directly, so without this the model keys on position rather than shape. After the subtraction each value is a distance from the wrist, which doesn't change when the hand moves around the frame(e.g left and right).
 
 Scale: divide by the wrist-to-landmark-9 distance. Subtracting fixes position but not apparent size, which varies with distance from camera. Dividing by a reference distance from the same hand cancels that out. (Essentially Right now a hand near the camera produces bigger numbers than the same hand further away. Dividing by a reference distance from the same hand cancels that.). 
     Wrist to landmark 9 because it's a palm-anchored distance that doesn't change with the sign being made
@@ -24,3 +24,14 @@ Scale: divide by the wrist-to-landmark-9 distance. Subtracting fixes position bu
 Handedness mirroring: x becomes 1-x for right hands, so everything is normalised to left. Needed because the training data is mostly right hands and my test frames are left.
 
 All three live in landmarks.py so the notebook and the Flask app can't drift apart.
+
+
+
+TODO when building the frontend loop: record starting interval, final
+interval, and why it changed. The CV bullet claims tuning, so it needs
+numbers behind it.
+
+MediaPipe's handedness call isn't perfectly reliable, roughly 6% misread here. That's a good detail to have when someone asks how robust the pipeline is.
+
+
+Model accuracy : predicted 60-70%, got 46.5%

@@ -2,7 +2,7 @@ import math
 
 
 
-def normalise(values, handedness):
+def normalise(values, handedness, scale = True):
 
     hand = values.copy()
 
@@ -28,32 +28,36 @@ def normalise(values, handedness):
 
     if l_nine == 0:
         raise ValueError("Landmark 9 vector distance is 0")
-
-    for i in range(0,63):
-        hand[i] = hand[i] / l_nine
+    if scale:
+        for i in range(0,63):
+            hand[i] = hand[i] / l_nine
 
 
     return hand
 
 
-# Test 1: degenerate hand, should raise
-try:
-    normalise([0.5] * 63, 'Left')
-    print("FAIL: expected ValueError")
-except ValueError:
-    print("PASS: degenerate input raised")
+if __name__ == "__main__":
 
-# Test 2: real hand from the dataset
-import csv
-with open('dataset_kaggle.csv') as f:
-    reader = csv.reader(f)
-    next(reader)
-    row = next(reader)
+    # Test 1: degenerate hand, should raise
+    try:
+        normalise([0.5] * 63, "Left")
+        print("FAIL: expected ValueError")
+    except ValueError:
+        print("PASS: degenerate input raised")
 
-raw = [float(v) for v in row[:63]]
-handed = row[63]
-out = normalise(raw, handed)
+    # Test 2: real hand from the dataset
+    with open("dataset_kaggle.csv") as f:
+        reader = csv.reader(f)
+        next(reader)
+        row = next(reader)
 
-print("wrist (want 0,0,0):", out[0], out[1], out[2])
-print("landmark 9:", out[27], out[28], out[29])
-print("dist to 9 (want 1.0):", math.sqrt(out[27]**2 + out[28]**2 + out[29]**2))
+    raw = [float(v) for v in row[:63]]
+    handed = row[63]
+    out = normalise(raw, handed)
+
+    print("wrist (want 0,0,0):", out[0], out[1], out[2])
+    print("landmark 9:", out[27], out[28], out[29])
+    print(
+        "dist to 9 (want 1.0):",
+        math.sqrt(out[27] ** 2 + out[28] ** 2 + out[29] ** 2),
+    )

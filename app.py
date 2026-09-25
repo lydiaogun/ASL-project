@@ -35,7 +35,11 @@ def predict():
     img_buffer = np.frombuffer(file_bytes, dtype=np.uint8)
     
     #Decode buffer into an OpenCV BGR image
-    bgr_image = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
+    try:
+        bgr_image = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
+    except cv2.error:
+        return jsonify({"error": "Uploaded file is not a valid image"}), 400
+
     if bgr_image is None:
         return jsonify({"error": "Uploaded file is not a valid image"}), 400
     

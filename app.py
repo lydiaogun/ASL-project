@@ -35,6 +35,8 @@ def predict():
     
     #Decode buffer into an OpenCV BGR image
     bgr_image = cv2.imdecode(img_buffer, cv2.IMREAD_COLOR)
+    if bgr_image is None:
+        return jsonify({"error": "Uploaded file is not a valid image"}), 400
     
     #Convert BGR to RGB (Crucial for mp.ImageFormat.SRGB)
     rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
@@ -55,10 +57,10 @@ def predict():
             let_list.append(landmark.z)
         nlist = normalise(let_list, handed)
         prediction_batch = my_custom_classifier.predict([nlist])
-        predicton_result = prediction_batch[0]
-        return jsonify({"letter" : predicton_result})
+        prediction_result = prediction_batch[0]
+        return jsonify({"letter" : prediction_result})
     else:
-        return jsonify({"error" :  "No letter was found"}), 400
+        return jsonify({"error" :  "No letter was found"}), 200
         
 
             

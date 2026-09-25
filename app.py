@@ -30,6 +30,7 @@ def predict():
     # Get the file from the request
     file = request.files['image']
     file_bytes = file.read()
+    print(len(file_bytes))
     # Convert raw bytes to a 1D NumPy uint8 array
     img_buffer = np.frombuffer(file_bytes, dtype=np.uint8)
     

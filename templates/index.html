@@ -10,6 +10,9 @@
   <body>
 
     <video id="myVideo" width="640" height="360"  playsinline autoplay></video>
+    <canvas style = "display: none"></canvas>
+    <img id="preview-img">
+    <button  id="myBtn"> Click to add a frame </button>
     <script>
         async function fetchData(){
 
@@ -22,8 +25,31 @@
           }
 
         }
+          button = document.getElementById("myBtn")
+          button.addEventListener('click', function(){
+          const frame = document.querySelector("#myVideo");
+          const canvas = document.createElement("canvas")
+          const ctx = canvas.getContext("2d");
+
+          // Set canvas dimensions to match the video
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+
+          // Draw the current video frame onto the canvas
+          ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+          // 2. Convert to Data URL (base64 string)
+          const dataURL = canvas.toDataURL("image/png");
+
+          // 3. Insert the result directly into the image element's src
+          const imgPreview = document.querySelector("#preview-img");
+          imgPreview.src = dataURL;
+        })
 
         fetchData()
+        
+        
+        
+
         
     </script>
   </body>

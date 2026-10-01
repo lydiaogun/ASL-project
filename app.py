@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from landmarks import normalise
 import mediapipe as mp
 import numpy as np
@@ -67,6 +67,9 @@ def predict():
     else:
         return jsonify({"error" :  "No letter was found"}), 200
         
+@app.route("/")
+def index():
+    return render_template("index.html")
 
             
 
